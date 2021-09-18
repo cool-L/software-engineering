@@ -1,3 +1,6 @@
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,7 +29,13 @@ public class TextToString {
      * 清除输入字符串中除了文字逗号句号外的标签、回车等
      */
     public static String delete(String s) {
-
+        s = Jsoup.clean(s, Whitelist.none());
+        s = s.toLowerCase();
+        String[] strings = {" ", "\n", "\r", "\t", "\\r", "\\n", "\\t", "&nbsp;"};
+        for (String index : strings) {
+            s = s.replaceAll(index, "");
+        }
         return s;
     }
+
 }
